@@ -41,8 +41,6 @@ void URLRequestBufferJob::StartAsync(std::unique_ptr<base::Value> options) {
     dict->GetString("mimeType", &mime_type_);
     dict->GetString("charset", &charset_);
     dict->GetBinary("data", &binary);
-  } else if (options->IsType(base::Value::Type::BINARY)) {
-    options->GetAsBinary(&binary);
   }
 
   if (mime_type_.empty()) {
@@ -54,14 +52,14 @@ void URLRequestBufferJob::StartAsync(std::unique_ptr<base::Value> options) {
 #endif
   }
 
-  if (!binary) {
+  if (!options.is_blob()) {
     NotifyStartError(net::URLRequestStatus(
           net::URLRequestStatus::FAILED, net::ERR_NOT_IMPLEMENTED));
     return;
   }
 
   data_ = new base::RefCountedBytes(
-      reinterpret_cast<const unsigned char*>(binary->GetBuffer()),
+      reinterpret_cast<const unsigned char*>(options.GetBlob().data()),
       binary->GetSize());
   status_code_ = net::HTTP_OK;
   net::URLRequestSimpleJob::Start();
