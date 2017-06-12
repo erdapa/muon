@@ -497,9 +497,11 @@ void TabHelper::SetTabValues(const base::DictionaryValue& values) {
   values_->MergeDictionary(&values);
 }
 
-void TabHelper::SetOpener(int index) {
+void TabHelper::SetOpener(int openerTabId) {
+  WebContents* opener_contents = TabHelper::GetTabById(openerTabId);
+
   browser()->tab_strip_model()->SetOpenerOfWebContentsAt(
-    index, web_contents());
+    get_tab_strip_index(), opener_contents);
 }
 
 void TabHelper::RenderViewCreated(content::RenderViewHost* render_view_host) {

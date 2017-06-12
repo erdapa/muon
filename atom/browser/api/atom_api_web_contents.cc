@@ -2521,6 +2521,10 @@ void WebContents::OnTabCreated(const mate::Dictionary& options,
     tab_helper->SetAutoDiscardable(autoDiscardable);
   }
 
+  if (opener_tab_id != -1) {
+    tab_helper->SetOpener(opener_tab_id);
+  }
+
   bool discarded = false;
   if (options.Get("discarded", &discarded) && discarded && !active) {
     std::string url;
