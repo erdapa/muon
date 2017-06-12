@@ -106,6 +106,8 @@ class TabHelper : public content::WebContentsObserver,
     return values_.get();
   }
 
+  void SetOpener(int index);
+
   bool ExecuteScriptInTab(mate::Arguments* args);
 
   ScriptExecutor* script_executor() const {

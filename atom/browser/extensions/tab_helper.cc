@@ -497,6 +497,11 @@ void TabHelper::SetTabValues(const base::DictionaryValue& values) {
   values_->MergeDictionary(&values);
 }
 
+void TabHelper::SetOpener(int index) {
+  browser()->tab_strip_model()->SetOpenerOfWebContentsAt(
+    index, web_contents());
+}
+
 void TabHelper::RenderViewCreated(content::RenderViewHost* render_view_host) {
   render_view_map_[session_id()] = std::make_pair(
       render_view_host->GetProcess()->GetID(),
